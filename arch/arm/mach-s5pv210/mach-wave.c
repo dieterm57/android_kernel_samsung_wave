@@ -914,6 +914,8 @@ struct platform_device sec_device_dpram = {
 
 static void panel_cfg_gpio(struct platform_device *pdev)
 {
+printk("panel_cfg_gpio");
+
 	int i;
 	
 	/* configure DISPLAY_HSYNC, VSYNC, DE, PCLK and RGB pins */
@@ -959,6 +961,8 @@ static void panel_cfg_gpio(struct platform_device *pdev)
 
 void lcd_cfg_gpio_early_suspend(void)
 {
+printk("lcd_cfg_gpio_early_suspend");
+
 	int i;
 
 	for (i = 0; i < 8; i++) {

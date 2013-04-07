@@ -1242,7 +1242,8 @@ static int __devexit s3cfb_remove(struct platform_device *pdev)
 
 void s3cfb_early_suspend(struct early_suspend *h)
 {
-	struct s3cfb_global *fbdev =
+printk("s3cfb_early_suspend - no function\n");
+	/*struct s3cfb_global *fbdev =
 		container_of(h, struct s3cfb_global, early_suspend);
 
 	pr_debug("s3cfb_early_suspend is called\n");
@@ -1263,14 +1264,15 @@ void s3cfb_early_suspend(struct early_suspend *h)
 #endif
 	regulator_disable(fbdev->vlcd);
 	regulator_disable(fbdev->vcc_lcd);
-	regulator_disable(fbdev->regulator);
+	regulator_disable(fbdev->regulator);*/
 
 	return ;
 }
 
 void s3cfb_late_resume(struct early_suspend *h)
 {
-	struct s3cfb_global *fbdev =
+printk("s3cfb_early_resume - no function\n");
+	/*struct s3cfb_global *fbdev =
 		container_of(h, struct s3cfb_global, early_suspend);
 	struct s3c_platform_fb *pdata = to_fb_plat(fbdev->dev);
 	struct platform_device *pdev = to_platform_device(fbdev->dev);
@@ -1334,7 +1336,7 @@ void s3cfb_late_resume(struct early_suspend *h)
 	if (pdata->reset_lcd)
 		pdata->reset_lcd(pdev);
 
-	pr_info("s3cfb_late_resume is complete\n");
+	pr_info("s3cfb_late_resume is complete\n");*/
 	return ;
 }
 

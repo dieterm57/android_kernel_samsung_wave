@@ -178,6 +178,8 @@ static void update_brightness(struct s5p_lcd *lcd)
 
 static void lg4573_ldi_enable(struct s5p_lcd *lcd)
 {
+printk("lg4573_ldi_enable\n");
+
 	struct s5p_lg4573_panel_data *pdata = lcd->data;
 	dev_dbg(lcd->ldi_dev, "%s\n", __func__);
 	mutex_lock(&lcd->lock);
@@ -186,7 +188,7 @@ static void lg4573_ldi_enable(struct s5p_lcd *lcd)
 		printk("%s already enabled!\n", __func__);
 		goto finito;
 	}
-	switch (lcd->lcd_type) 
+	/*switch (lcd->lcd_type) 
 	{
 		case 1:
 			printk(KERN_ERR "%s: Unsupported LCD type 1!\n", __func__);
@@ -201,11 +203,10 @@ static void lg4573_ldi_enable(struct s5p_lcd *lcd)
 		default:
 			lg4573_panel_send_sequence(lcd, pdata->seq_settings_type0);
 			break;
-	}
+	}*/
+	lg4573_panel_send_sequence(lcd, pdata->seq_standby_off);
 
-	//lg4573_panel_send_sequence(lcd, pdata->seq_standby_off);
-
-	lcd->ldi_enabled = 1;	
+	lcd->ldi_enabled = 1;
 	/* Will bring back up previous backlight state with ldi_enabled == 1 */
 	update_brightness(lcd);
 finito:
@@ -214,6 +215,8 @@ finito:
 
 static void lg4573_ldi_disable(struct s5p_lcd *lcd)
 {
+printk("lg4573_ldi_disable\n");
+
 	struct s5p_lg4573_panel_data *pdata = lcd->data;
 
 	dev_dbg(lcd->ldi_dev, "%s\n", __func__);
@@ -277,9 +280,6 @@ static int s5p_bl_update_status(struct backlight_device *bd)
 static int s5p_bl_get_brightness(struct backlight_device *bd)
 {
 	struct s5p_lcd *lcd = bl_get_data(bd);
-
-	printk(KERN_DEBUG "\n reading brightness\n");
-
 	return lcd->bl;
 }
 
@@ -290,18 +290,28 @@ static const struct backlight_ops s5p_bl_ops = {
 
 void lg4573_early_suspend(struct early_suspend *h)
 {
+printk("lg4573_early_suspend\n");
+
 	struct s5p_lcd *lcd = container_of(h, struct s5p_lcd, early_suspend);
 
-	lg4573_ldi_disable(lcd);
+	//lg4573_ldi_disable(lcd);
+	
+	struct s5p_lg4573_panel_data *pdata = lcd->data;
+	lg4573_panel_send_sequence(lcd, pdata->seq_standby_on);
 	
 	return;
 }
 
 void lg4573_late_resume(struct early_suspend *h)
 {
+printk("lg4573_early_resume\n");
+
 	struct s5p_lcd *lcd = container_of(h, struct s5p_lcd, early_suspend);
 
-	lg4573_ldi_enable(lcd);
+	//lg4573_ldi_enable(lcd);
+	
+	struct s5p_lg4573_panel_data *pdata = lcd->data;
+	lg4573_panel_send_sequence(lcd, pdata->seq_standby_off);
 	
 	return;
 }
