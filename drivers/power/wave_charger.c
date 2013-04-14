@@ -76,6 +76,7 @@ enum {
 
 
 #define RECHARGE_COND_VOLTAGE		4130000
+#define RECHARGE_COND_PERCENT		90
 #define RECHARGE_COND_TIME		(30*1000)	/* 30 seconds */
 
 
@@ -371,6 +372,13 @@ static void s3c_bat_discharge_reason(struct chg_data *chg)
 		chg->set_batt_full = 1;
 		chg->bat_info.batt_is_full = true;
 	}
+	
+	/* Avoid unnecessary charge cycles by creating a hysteresis */
+	if(chg->bat_info.batt_is_full && chg->bat_info.batt_percentage >= RECHARGE_COND_PERCENT)
+	{
+		chg->bat_info.dis_reason &= ~DISCONNECT_BAT_FULL;
+	}
+	
 	if (discharge_reason & DISCONNECT_BAT_FULL &&
 			/*chg->bat_info.batt_vcell < RECHARGE_COND_VOLTAGE*/			
 			chg->bat_info.batt_percentage < 100)
