@@ -175,6 +175,7 @@ const unsigned short LG4573_SEQ_SETTING_TYPE_0[] = {
 	0x100,
 
 	0x11,   // Exit Sleep Mode
+	SLEEPMSEC, 20,
 
 	0x36,
 	0x100,
@@ -311,7 +312,7 @@ const unsigned short LG4573_SEQ_SETTING_TYPE_0[] = {
 	0x116,
 	0x103,
             	
-	SLEEPMSEC, 100,
+	SLEEPMSEC, 20,
 
 	0x29, //Disp ON
 	
@@ -321,17 +322,15 @@ const unsigned short LG4573_SEQ_SETTING_TYPE_0[] = {
 
 const unsigned short LG4573_SEQ_SLEEP_OFF[] = {
 	0x11, 
-	SLEEPMSEC, 200,
+	SLEEPMSEC, 20,
 	0x29,
-	SLEEPMSEC, 200,
 	ENDDEF, 0x0000
 };
 
 const unsigned short LG4573_SEQ_SLEEP_ON[] = {
 	0x10,            
-	SLEEPMSEC, 200,
+	SLEEPMSEC, 20,
 	0x28, 
-	SLEEPMSEC, 200,
 	ENDDEF, 0x0000
 };
 
